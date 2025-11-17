@@ -8,7 +8,7 @@ const CIRCLE_CONFIG = {
   count: 60, // At least 50 circles
   minRadius: 5, // Minimum radius in px
   maxRadius: 30, // Maximum radius in px
-  colors: ['bg-blue-200', 'bg-blue-300', 'bg-blue-400', 'bg-blue-500'], // Varying gray Tailwind color classes
+  colors: ['bg-[#7B3E19]', 'bg-[#7B3E19]', 'bg-[#7B3E19]', 'bg-[#7B3E19]'], // Varying gray Tailwind color classes
   // Spread in bottom-right: higher % = more spread from the corner
   maxRightPercent: 80, // Increased for more space to fit 50 without overlap
   maxBottomPercent: 80,

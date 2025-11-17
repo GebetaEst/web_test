@@ -73,9 +73,10 @@ const Landing = () => {
       relative overflow-hidden cursor-pointer
       shadow-lg z-20
       after:absolute after:h-full after:w-full after:inset-0 after:rounded-lg
-      after:bg-[#d2b48c] after:-z-20
+      after:bg-[#7E4623] after:-z-20
       after:-translate-y-full after:transition-all after:duration-500
       after:hover:translate-y-0
+      active:Hover:text
       transition-all duration-300 hover:duration-300
       [&_p]:delay-200 [&_p]:transition-all
     `;
@@ -231,9 +232,9 @@ const Landing = () => {
                   alt="Placeholder for Gourmet Grills"
                   className="w-full h-48 object-cover rounded-lg"
                 />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">Gourmet Grills</h3>
-                  <p className="text-gray-600 mb-4">A modern twist on classic comfort food.</p>
+                <div className="p-6 group-hover:text-white transition-colors duration-300">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white">Gourmet Grills</h3>
+                  <p className="text-gray-600 mb-4 group-hover:text-white">A modern twist on classic comfort food.</p>
                   <div className="flex items-center text-yellow-500">
                     <Star size={16} fill="currentColor" stroke="none" />
                     <span className="ml-1 font-semibold text-gray-800">4.8</span>
@@ -247,9 +248,9 @@ const Landing = () => {
                   alt="Placeholder for Spicy Spoon"
                   className="w-full h-48 object-cover rounded-lg"
                 />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">Spicy Spoon</h3>
-                  <p className="text-gray-600 mb-4">Authentic and fiery international cuisine.</p>
+                <div className="p-6 group-hover:text-white transition-colors duration-300">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white">Spicy Spoon</h3>
+                  <p className="text-gray-600 mb-4 group-hover:text-white">Authentic and fiery international cuisine.</p>
                   <div className="flex items-center text-yellow-500">
                     <Star size={16} fill="currentColor" stroke="none" />
                     <span className="ml-1 font-semibold text-gray-800">4.5</span>
@@ -263,9 +264,9 @@ const Landing = () => {
                   alt="Placeholder for The Vegan Corner"
                   className="w-full h-48 object-cover rounded-lg"
                 />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">The Vegan Corner</h3>
-                  <p className="text-gray-600 mb-4">Fresh, plant-based meals crafted with care.</p>
+                <div className="p-6 group-hover:text-white transition-colors duration-300">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white">The Vegan Corner</h3>
+                  <p className="text-gray-600 mb-4 group-hover:text-white">Fresh, plant-based meals crafted with care.</p>
                   <div className="flex items-center text-yellow-500">
                     <Star size={16} fill="currentColor" stroke="none" />
                     <span className="ml-1 font-semibold text-gray-800">4.9</span>
