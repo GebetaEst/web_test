@@ -176,8 +176,8 @@ const Landing = () => {
 
         {/* Hero Section */}
         <section className="relative z-10 flex flex-col items-start pl-10 justify-center h-[630px]">
-          <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tight drop-shadow-xl animate-fade-in-down mb-6">
-            <span className="block mb-2 md:mb-4 text-start  motion-translate-x-in-[-20%] motion-translate-y-in-[0%] motion-opacity-in-[0%] motion-duration-1500">Craving?</span>
+          <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tight drop-shadow-xl animate-fade-in-down mb-6 motion-translate-x-in-[-20%] motion-translate-y-in-[0%] motion-opacity-in-[0%] motion-duration-1500">
+            <span className="block mb-2 md:mb-4 text-start  ">Craving?</span>
             <span className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-500 bg-clip-text text-transparent  motion-translate-x-in-[98%] motion-translate-y-in-[-1%] motion-opacity-in-[0%]">
               Tap. Eat. Repeat.
             </span>
