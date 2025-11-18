@@ -109,11 +109,11 @@ const AllFoods = () => {
 
     return (
         <>
-            <div className="max-w-6xl md:w-[1900px] mx-auto p-10 z-0">
+            <div className="w-[100%] md:w-[3300px] mx-auto z-0 scrollbar-hide ">
                 {/* Scroll Container */}
                 <div
                     ref={scrollRef}
-                    className="flex overflow-x-hidden space-x-6 pb-14 px-0 scrollbar-hide md:w-[1900px] p-12"
+                    className="flex overflow-x-hidden scrollbar-hide space-x-6   w-[3300px] "
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}

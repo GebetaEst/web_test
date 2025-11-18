@@ -208,7 +208,9 @@ const Landing = () => {
               Search
             </button>
           </form> */}
+
         </section>
+        <WaveDivider />
 
         {/* Scroll Indicator */}
         {/* <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
@@ -217,7 +219,6 @@ const Landing = () => {
         </Link>
       </div> */}
 
-        <WaveDivider />
 
         {/* Explore Section */}
         <section id="explore" className="relative pt-20 pb-20 min-h-[700px] bg-[#f4f1e9] backdrop-blur-lg rounded-t-xl  ">
@@ -315,7 +316,7 @@ const Landing = () => {
               />
             </div>
           </div>
-          <div className="flex self-center justify-self-center md:-translate-y-28 md:-translate-x-5 pt-14 -z-500 overflow-auto md:max-w-6xl mx-auto">
+          <div className="flex w-[100%] self-center justify-self-center md:-translate-y-6 m pt-14 -z-500 overflow-auto md:max-w-6xl mx-auto">
 
             <AllFoods />
           </div>
