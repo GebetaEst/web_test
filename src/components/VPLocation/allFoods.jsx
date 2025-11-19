@@ -60,7 +60,7 @@ const AllFoods = () => {
         const speed = 0.6;
         const cardWidth = 280;
         const gap = 24;
-        const cycleWidth = foods.length * cardWidth + (foods.length - 1) * gap;
+        const cycleWidth = foods.length * cardWidth + (foods.length - 1) * gap * 20;
 
         const step = () => {
             if (!isPaused) {

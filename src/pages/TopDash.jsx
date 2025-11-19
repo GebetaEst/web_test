@@ -15,8 +15,9 @@ const TopDash = () => {
   }, [activeNav]);
 
   const storedUser = JSON.parse(sessionStorage.getItem("user-data")).state.user;
+  const restaurant = JSON.parse(sessionStorage.getItem("user-data")).state.restaurant;
   const role = storedUser.role;
-  // console.log(storedUser.role);
+  console.log(storedUser);
   return (
     <>
       <div className="pl-12 flex items-center justify-between bg-[#e0cda9] h-[65px] w-[100%] px-28 border-[#e0cd99]">
@@ -38,12 +39,16 @@ const TopDash = () => {
             onClick={() => {
               setUserProfile(true);
             }}
-            className="flex hover:border items-center gap-2 motion-preset-slide-left motion-duration-1500  cursor-pointer hover:shadow-lg p-1 rounded-full transition-all duration-300 hover:scale-105 active:-rotate-3"
+            className="flex hover:border items-center gap-2 motion-preset-slide-left motion-duration-1500  cursor-pointer hover:shadow-lg p-1 rounded-full transition-all duration-300 hover:scale-105 hover:-rotate-3 group relative"
           >
             <div className="p-5 w-[50px] h-[50px] flex items-center justify-center font-semibold text-white text-lg rounded-full bg-[#e02960] ">
-          <p>{storedUser?.firstName[0]}</p>
+              <p>{storedUser?.firstName[0]}</p>
             </div>
             <p className="text-lg font-semibold">{storedUser?.firstName}</p>
+            {/* Popup with restoration name on hover */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white border border-gray-200 shadow-lg rounded-md px-4 py-2 text-gray-800 whitespace-nowrap z-50 font-semibold opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 text-xs">
+              {restaurant?.name}
+            </div>
           </div>
         </div>
       </div>

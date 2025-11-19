@@ -12,12 +12,11 @@ import AdminNav from "./components/Sidebar/A-sidBarNav";
 import Verify from "./pages/verify";
 import GlobalNotifications from "./components/GlobalNotifications";
 import useUserStore from "./Store/UseStore";
-import MoneyFlow from "./pages/A-DemoPages/A-analytics";
+// import MoneyFlow from "./pages/A-DemoPages/A-analytics";
 import { useOrderFetcher } from "./services/OrderPollingService";
 import FirstLogin from "./components/firstLogin";
 import AllFoods from "./components/VPLocation/allFoods";
-// import CL from "./components/VPLocation/CL";
-
+import AInfoCards from "./pages/A-DemoPages/InfoCards";
 function App() {
   const { user } = useUserStore();
   const userRole = user?.role;
@@ -46,7 +45,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassPage />} />
           <Route path="/otp" element={<OTPPage />} />
           <Route path="/verify" element={<Verify />} />
-          <Route path="/money-flow" element={<MoneyFlow />} />
+          <Route path="/a-info-cards" element={<AInfoCards />} />
 
           <Route
             path="/managerDashboard"

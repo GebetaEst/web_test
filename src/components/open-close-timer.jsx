@@ -34,6 +34,7 @@ const TimerToggle = () => {
         }
       );
       const result = await res.json();
+      // console.log(result);
 
       if (res.ok && result.status === "success") {
         setIsOpen(prev => !prev);

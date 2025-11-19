@@ -8,10 +8,10 @@ const CIRCLE_CONFIG = {
   count: 60, // At least 50 circles
   minRadius: 5, // Minimum radius in px
   maxRadius: 30, // Maximum radius in px
-  colors: ['bg-[#7B3E19]', 'bg-[#7B3E19]', 'bg-[#7B3E19]', 'bg-[#7B3E19]'], // Varying gray Tailwind color classes
+  colors: ['bg-[#7B3E19] ', 'bg-[#7B3E19]  ', 'bg-[#7B3E19]   ', 'bg-[#7B3E19]'], // Varying gray Tailwind color classes
   // Spread in bottom-right: higher % = more spread from the corner
-  maxRightPercent: 80, // Increased for more space to fit 50 without overlap
-  maxBottomPercent: 80,
+  maxRightPercent: 95, // Increased for more space to fit 50 without overlap
+  maxBottomPercent: 95,
   assumedContainerSize: 1200, // Approximate px size of parent for overlap calculation (adjust if your viewport is much smaller/larger)
   maxPlacementAttempts: 200, // Fallback if can't place without overlap
 };
@@ -103,7 +103,7 @@ const AnimatedCircles = () => {
   }, [circles.length]);
 
   return (
-    <div className={`absolute inset-0 pointer-events-none z-0  `}>
+    <div className={`absolute inset-0 pointer-events-none z-0`}>
       {circles.map((circle) => (
         <div
           key={circle.id}

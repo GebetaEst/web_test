@@ -1,0 +1,177 @@
+import { ChartNoAxesCombined, ShoppingCart, BarChart2, Utensils } from "lucide-react";
+import Card from "../../components/Cards/Cards";
+import { useEffect, useMemo, useState } from "react";
+import useAdminDataStore from "../../Store/UseAdminDataStore";
+
+const AInfoCards = () => {
+    const {
+        users,
+        restaurants,
+        fetchUsers,
+        fetchRestaurants,
+    } = useAdminDataStore();
+
+    const [ordersTotal, setOrdersTotal] = useState(0);
+    const [ordersByType, setOrdersByType] = useState({ delivery: 0, takeaway: 0, dinein: 0 });
+
+    useEffect(() => {
+        if (!users || users.length === 0) {
+            fetchUsers();
+        }
+        if (!restaurants || restaurants.length === 0) {
+            fetchRestaurants();
+        }
+    }, [users, restaurants, fetchUsers, fetchRestaurants]);
+
+    useEffect(() => {
+        const fetchOrderStats = async () => {
+            try {
+                const base = "https://gebeta-delivery1.onrender.com"
+                    
+                const res = await fetch(
+                    `${base}/api/v1/orders/restaurants/order-stats`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        },
+                    }
+                );
+                const json = await res.json();
+                if (!res.ok) throw new Error(json?.message || "Failed to load stats");
+                const list = Array.isArray(json?.data) ? json.data : [];
+                const total = list
+                    .map((r) => Number(r?.totalOrders || 0))
+                    .reduce((sum, n) => sum + n, 0);
+                setOrdersTotal(total);
+
+                const byTypeTotals = list.reduce(
+                    (acc, r) => {
+                        const byType = r?.byType || {};
+                        acc.delivery += Number(byType?.Delivery || 0);
+                        acc.takeaway += Number(byType?.Takeaway || 0);
+                        acc.dinein += Number(byType?.DineIn || 0);
+                        return acc;
+                    },
+                    { delivery: 0, takeaway: 0, dinein: 0 }
+                );
+                setOrdersByType(byTypeTotals);
+                
+            } catch {
+                setOrdersTotal(0);
+                setOrdersByType({ delivery: 0, takeaway: 0, dinein: 0 });
+            }
+        };
+        fetchOrderStats();
+    }, []);
+
+    const stats = useMemo(() => {
+        const roleCounts = (users || []).reduce((acc, user) => {
+            const role = String(user?.role || "").toLowerCase();
+            if (role.includes("admin")) acc.admin += 1;
+            else if (role.includes("manager")) acc.manager += 1;
+            else if (role.includes("delivery")) acc.delivery += 1;
+            else if (role.includes("customer")) acc.customer += 1;
+            else acc.other += 1;
+            return acc;
+        }, { admin: 0, manager: 0, delivery: 0, customer: 0, other: 0 });
+
+        return {
+            roleItems: [
+                { label: "Admin", count: roleCounts.admin },
+                { label: "Manager", count: roleCounts.manager },
+                { label: "Delivery", count: roleCounts.delivery },
+                { label: "Customer", count: roleCounts.customer },
+            ],
+            usersByRoleText: `${roleCounts.admin} / ${roleCounts.manager} / ${roleCounts.delivery} / ${roleCounts.customer}`,
+            // usersByRoleLegend: "admin / manager / delivery / customer",
+            restaurantsCount: (restaurants || []).length,
+        };
+    }, [users, restaurants]);
+
+    const CardInfo = [
+        {
+            label: "Total Revenue",
+            num: "",
+            icon: <ChartNoAxesCombined size={18} />,
+            progress: "Coming soon",
+        },
+        {
+            label: "Orders",
+            num: ordersTotal?.toLocaleString?.() || ordersTotal,
+            icon: <ShoppingCart size={18} />,
+            progress: (
+                <>
+                    <span className="font-medium">Delivery:</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.delivery}</span><br/>
+                    <span className="mx-1">|</span>
+                    <span className="font-medium">Takeaway:</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.takeaway}</span>
+                    <span className="mx-1">|</span>
+                    <span className="font-medium">Dine-in:</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.dinein}</span>
+                </>
+            ),
+        },
+        {
+            label: "Users by Role",
+            num: (
+                <div className="flex items-center">
+                    <div className="flex flex-col">
+                        <div className="flex items-center">
+                            {stats.roleItems.slice(0,2).map((r, idx) => (
+                                <div key={r.label} className="flex items-center">
+                                    <span className="text-sm ">
+                                        <span className="font-semibold p-1 rounded-full bg-gray-900 text-gray-100 py-0">{r.count}</span> {r.label}
+                                    </span>
+                                    {idx < 1 && (
+                                        <div className="w-px h-4 bg-gray-300 mx-2" />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="flex items-center mt-1">
+                            {stats.roleItems.slice(2).map((r, idx) => (
+                                <div key={r.label} className="flex items-center mb-3">
+                                    <span className="text-sm ">
+                                        <span className="font-semibold p-1 rounded-full bg-gray-900 text-gray-100 py-0"><span>{r.count}</span></span> {r.label}
+                                    </span>
+                                    {idx < stats.roleItems.slice(2).length - 1 && (
+                                        <div className="w-px h-4 bg-gray-300 mx-2" />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            ),
+            icon: <BarChart2 size={18} />,
+            progress: (
+                <>
+                    Total across roles: <span className="font-semibold text-lg text-gray-900">{users?.length ?? 0}</span>
+                </>
+            ),
+        },
+        {
+            label: "Restaurants",
+            num: stats.restaurantsCount?.toLocaleString?.() || stats.restaurantsCount,
+            icon: <Utensils size={18} />,
+            progress: "Total restaurants",
+        },
+    ];
+
+    return ( 
+        <>
+        <div className="flex flex-wrap gap-4 md:justify-between font-noto">
+            {CardInfo.map((item, index) => (
+                <Card key={index}>
+                    <div className="flex flex-col items-start  md:w-[170px]">
+                        <div>{item.icon}</div>
+                        <h1 className="font-semibold">{item.label}</h1>
+                        <div>{item.num}</div>
+                        <p className="text-xs text-placeholderText">{item.progress}</p>
+                    </div>
+                </Card>
+            ))}
+        </div>
+        </>
+     );
+}
+
+export default AInfoCards;

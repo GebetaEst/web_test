@@ -212,9 +212,12 @@ const ManagerOrders = () => {
                       )
                       .join(", ") || "N/A"}
                     <br />
-                    <span className="font-medium">Total Order:</span>
+                    <span className="font-medium">Total Order:</span> 
                     {order.items
                       ?.reduce((total, item) => total + item.quantity, 0) || "N/A"}
+                  </p>
+                  <p className="text-[#5f4637]">
+                    <span className="font-medium">Order Type:</span> {order.orderType}
                   </p>
                   <p className="text-[#5f4637]">
                     <span className="font-medium">Total:</span>{" "}

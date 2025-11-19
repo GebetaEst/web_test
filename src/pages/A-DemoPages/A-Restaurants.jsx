@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Trash, RefreshCcw, CirclePlus, X } from "lucide-react";
+import { RefreshCcw, CirclePlus, X } from "lucide-react";
 import AddRestaurantsForm from "../../components/UserForms/A-AddRestaurantsForm";
 import PopupCard from "../../components/Cards/PopupCard";
 import { Loading } from "../../components/Loading/Loading";
 import AResOrders from "../../components/A-ResOrdersDetails"
+import useAdminDataStore from "../../Store/UseAdminDataStore";
 const ACustomers = () => {
-  const [restaurants, setRestaurants] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    restaurants,
+    restaurantsLoading,
+    restaurantsError,
+    fetchRestaurants,
+    updateRestaurantStatus,
+    assignRestaurantManager,
+  } = useAdminDataStore();
   const [expandedRestaurant, setExpandedRestaurant] = useState(null);
   const [showAddRes, setShowAddRes] = useState(false);
   const [search, setSearch] = useState("");
-  const [error, setError] = useState(null);
-  const [refetch, setRefetch] = useState(false);
   const [statusDropdownId, setStatusDropdownId] = useState(null);
   const [managerInputs, setManagerInputs] = useState({});
   const [showOrders, setShowOrders] = useState(false);
@@ -24,38 +29,10 @@ const ACustomers = () => {
     id: null,
   });
 
-  // Fetch all restaurants on component mount or refetch
+  // Fetch all restaurants on mount
   useEffect(() => {
-    const fetchRestaurants = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch(
-          "https://gebeta-delivery1.onrender.com/api/v1/restaurants/admin/list",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-
-        const data = await res.json();
-        console.log(data)
-        if (res.ok && data.status === "success") {
-          setRestaurants(data.data || []);
-        } else {
-          throw new Error(data.message || "Failed to load restaurants.");
-        }
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchRestaurants();
-  }, [refetch]);
+  }, [fetchRestaurants]);
 
   // Toggles the expanded view for a restaurant row
   const toggleExpand = (id) => {
@@ -64,46 +41,17 @@ const ACustomers = () => {
 
   // Handles changing the active status of a restaurant
   const handleStatusChange = async (id, newStatus) => {
-    try {
-      const res = await fetch(
-        `https://gebeta-delivery1.onrender.com/api/v1/restaurants/${id}`,
-        {
-          method: (newStatus === "Active") ? "POST" : "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      // const data = await res.json();
-
-      if (res.ok) {
-        setRestaurants((prev) =>
-          prev.map((restaurant) =>
-            restaurant.id === id
-              ? { ...restaurant, isActive: newStatus === "Active" }
-              : restaurant
-          )
-        );
-        setStatusDropdownId(null);
-        setAlertInfo({
-        show: true,
-        message: `Status updated to ${newStatus} successfully!`,
-      });
-      } 
-    } catch (error) {
-      console.error("Status update failed:", error);
-      setAlertInfo({
-        show: true,
-        message: `Failed to update status: ${error.message}`,
-      });
-    }finally{
-      setTimeout(() => {
-        setAlertInfo({ show: false, message: "" });
-      }, 3000);
-
-    }
-
+    const result = await updateRestaurantStatus(id, newStatus);
+    setStatusDropdownId(null);
+    setAlertInfo({
+      show: true,
+      message: result.ok
+        ? `Status updated to ${newStatus} successfully!`
+        : `Failed to update status: ${result.message}`,
+    });
+    setTimeout(() => {
+      setAlertInfo({ show: false, message: "" });
+    }, 3000);
   };
 
   // Filter restaurants based on search input
@@ -140,49 +88,24 @@ const ACustomers = () => {
     }
 
     const assignManager = async () => {
-      try {
-        const res = await fetch(
-          `https://gebeta-delivery1.onrender.com/api/v1/restaurants/assign-manager`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            body: JSON.stringify({
-              phone: phone,
-              restaurantId: id,
-            }),
-          }
-        );
-        console.log("assign", res)
-
-        const data = await res.json();
-        if (res.ok) {
-          setAlertInfo({
-            show: true,
-            message: "Seccessfully assigned manager",
-          });
-          setTimeout(() => {
-            setAlertInfo({ show: false, message: "" });
-          }, 3000);
-          setRefetch((prev) => !prev);
-          setManagerInputs((prev) => ({ ...prev, [id]: "" }));
-        } else {
-          setAlertInfo({ show: false, message: "" })
-          throw new Error(data.message || "Failed to assign manager");
-        }
-      } catch (err) {
-        console.error("Assign manager error:", err);
-          setAlertInfo({
-            show: true,
-            message: `Failed to assign manager: ${err.message}`,
-          });
-      }finally{
+      const result = await assignRestaurantManager(id, phone);
+      if (result.ok) {
+        setAlertInfo({
+          show: true,
+          message: "Seccessfully assigned manager",
+        });
         setTimeout(() => {
           setAlertInfo({ show: false, message: "" });
         }, 3000);
-
+        setManagerInputs((prev) => ({ ...prev, [id]: "" }));
+      } else {
+        setAlertInfo({
+          show: true,
+          message: `Failed to assign manager: ${result.message}`,
+        });
+        setTimeout(() => {
+          setAlertInfo({ show: false, message: "" });
+        }, 3000);
       }
     };
     assignManager();
@@ -231,11 +154,11 @@ const ACustomers = () => {
           />
           <button
             className="bg-[#e0cda9] p-2 rounded-md transition-transform duration-500 hover:scale-110"
-            onClick={() => setRefetch(!refetch)}
+            onClick={() => fetchRestaurants(true)}
             title="Refresh Data"
           >
             <span
-              className={`flex justify-center items-center ${loading ? "animate-spin" : ""
+              className={`flex justify-center items-center ${restaurantsLoading ? "animate-spin" : ""
                 }`}
             >
               <RefreshCcw size={24} color="#4b382a" />
@@ -277,11 +200,11 @@ const ACustomers = () => {
           </div>
         )}
 
-        {loading ? (
+        {restaurantsLoading ? (
           <Loading />
-        ) : error ? (
+        ) : restaurantsError ? (
           <p className="text-red-600 text-lg bg-red-100 p-4 rounded-md">
-            Error: {error}. Please try again.
+            Error: {restaurantsError}. Please try again.
           </p>
         ) : (
           <div className="overflow-x-auto">

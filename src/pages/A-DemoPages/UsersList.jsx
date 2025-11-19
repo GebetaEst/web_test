@@ -1,56 +1,23 @@
 import { useState, useEffect } from "react";
-import UseFetch from "../../services/get";
-import Card from "../../components/Cards/Cards";
-import { Loading , InlineLoadingDots} from "../../components/Loading/Loading";
-import { Pencil, Trash, Search, RefreshCcw, Phone } from "lucide-react";
-import ShowById from "./showById";
+import { Loading } from "../../components/Loading/Loading";
+import { RefreshCcw } from "lucide-react";
 import { useUserId } from "../../contexts/userIdContext";
+import useAdminDataStore from "../../Store/UseAdminDataStore";
 
 const UsersList = ({ role }) => {
-  const [users, setUsers] = useState([]);
   const { getId, setGetId, refreshUsers } = useUserId();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [errorMg, setErrorMg] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [refetch, setRefetch] = useState(false);
 
-  const fetchUsers = async () => {
-    setLoading(true);
-    setErrorMg(null);
-
-    try {
-      const response = await fetch(
-        "https://gebeta-delivery1.onrender.com/api/v1/users",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch users");
-      }
-
-      const result = await response.json();
-      setData(result);
-    } catch (error) {
-      setErrorMg(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (Array.isArray(data?.data?.users)) {
-      setUsers(data.data.users);
-    }
-  }, [data]);
+  const {
+    users,
+    usersLoading,
+    usersError,
+    fetchUsers,
+  } = useAdminDataStore();
 
   useEffect(() => {
     fetchUsers();
-  }, [refreshUsers, refetch]);
+  }, [refreshUsers, fetchUsers]);
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -90,13 +57,11 @@ const UsersList = ({ role }) => {
       />
       <button
               className="bg-[#e0cda9] p-2 rounded transition-all duration-500 mx-6  sticky top-0 z-40"
-              onClick={() => {
-                setRefetch(!refetch);
-              }}
+              onClick={() => fetchUsers(true)}
             >
               <span
                 className={` flex justify-center items-center  ${
-                  loading && "animate-spin transition duration-1500"
+                  usersLoading && "animate-spin transition duration-1500"
                 }`}
               >
                 <RefreshCcw size={24} color="#4b382a" />
@@ -104,8 +69,8 @@ const UsersList = ({ role }) => {
             </button>
             
 
-      {errorMg && <p className="text-red-500">{errorMg}</p>}
-      {loading ? (
+      {usersError && <p className="text-red-500">{usersError}</p>}
+      {usersLoading ? (
         <Loading />
       ) : (
         filteredUsers?.map((user) => (

@@ -233,13 +233,13 @@ const Landing = () => {
                   alt="Placeholder for Gourmet Grills"
                   className="w-full h-48 object-cover rounded-lg"
                 />
-                <div className="p-6 group-hover:text-white transition-colors duration-300 ">
+                <div className="p-6 group-hover:text-white transition-colors duration-100 ">
                   <h3 className="text-xl font-bold mb-2 group-hover:text-white">Gourmet Grills</h3>
                   <p className="text-gray-600 mb-4 group-hover:text-white">A modern twist on classic comfort food.</p>
                   <div className="flex items-center text-yellow-500">
                     <Star size={16} fill="currentColor" stroke="none" />
-                    <span className="ml-1 font-semibold text-gray-800">4.8</span>
-                    <span className="text-sm text-gray-500 ml-2">(2,500 ratings)</span>
+                    <span className="ml-1 font-semibold text-gray-800 group-hover:text-white">4.8</span>
+                    <span className="text-sm text-gray-600 ml-2 group-hover:text-white">(2,500 ratings)</span>
                   </div>
                 </div>
               </div>
@@ -254,8 +254,8 @@ const Landing = () => {
                   <p className="text-gray-600 mb-4 group-hover:text-white">Authentic and fiery international cuisine.</p>
                   <div className="flex items-center text-yellow-500">
                     <Star size={16} fill="currentColor" stroke="none" />
-                    <span className="ml-1 font-semibold text-gray-800">4.5</span>
-                    <span className="text-sm text-gray-500 ml-2">(1,800 ratings)</span>
+                    <span className="ml-1 font-semibold text-gray-800 group-hover:text-white">4.5</span>
+                    <span className="text-sm text-gray-600 ml-2 group-hover:text-white">(1,800 ratings)</span>
                   </div>
                 </div>
               </div>
@@ -270,8 +270,8 @@ const Landing = () => {
                   <p className="text-gray-600 mb-4 group-hover:text-white">Fresh, plant-based meals crafted with care.</p>
                   <div className="flex items-center text-yellow-500">
                     <Star size={16} fill="currentColor" stroke="none" />
-                    <span className="ml-1 font-semibold text-gray-800">4.9</span>
-                    <span className="text-sm text-gray-500 ml-2">(3,100 ratings)</span>
+                    <span className="ml-1 font-semibold text-gray-800 group-hover:text-white">4.9</span>
+                    <span className="text-sm text-gray-600 ml-2 group-hover:text-white">(3,100 ratings)</span>
                   </div>
                 </div>
               </div>
@@ -316,7 +316,7 @@ const Landing = () => {
               />
             </div>
           </div>
-          <div className="flex w-[100%] self-center justify-self-center md:translate-y-6 m  -z-500 overflow-auto md:max-w-6xl mx-auto">
+          <div className="flex self-center justify-self-center md:translate-y-6 -z-500 overflow-auto md:max-w-[100%] mx-auto">
 
             <AllFoods />
           </div>
