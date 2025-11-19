@@ -5,7 +5,7 @@ import RecentOrdersTB from "./M-DemoPages/RecentOrdersTB";
 import useUserStore  from "../Store/UseStore";
 import AInfoCards from "./A-DemoPages/InfoCards";
 import AChart from "../components/Chart/A-Chart";
-
+import Top5Restaurants from "./A-DemoPages/Top5Restawrants";
 
 const DashBoardPage = () => {
 
@@ -24,7 +24,7 @@ const DashBoardPage = () => {
         <div className="flex justify-around items-center bg-opacity-0">
 
           {role === "Admin" ? <AChart /> : <Chart />}
-          <RecentOrdersTB />
+          {role === "Admin" ? <Top5Restaurants /> : <RecentOrdersTB />}
           {/* <Timer /> */}
         </div>
       </div>

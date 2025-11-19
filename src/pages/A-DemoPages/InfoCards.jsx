@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, ShoppingCart, BarChart2, Utensils } from "lucide-react";
+import { ChartNoAxesCombined, ShoppingCart, BarChart2, Utensils, TrendingUp } from "lucide-react";
 import Card from "../../components/Cards/Cards";
 import { useEffect, useMemo, useState } from "react";
 import useAdminDataStore from "../../Store/UseAdminDataStore";
@@ -27,7 +27,7 @@ const AInfoCards = () => {
         const fetchOrderStats = async () => {
             try {
                 const base = "https://gebeta-delivery1.onrender.com"
-                    
+
                 const res = await fetch(
                     `${base}/api/v1/orders/restaurants/order-stats`,
                     {
@@ -55,7 +55,7 @@ const AInfoCards = () => {
                     { delivery: 0, takeaway: 0, dinein: 0 }
                 );
                 setOrdersByType(byTypeTotals);
-                
+
             } catch {
                 setOrdersTotal(0);
                 setOrdersByType({ delivery: 0, takeaway: 0, dinein: 0 });
@@ -96,16 +96,31 @@ const AInfoCards = () => {
             progress: "Coming soon",
         },
         {
+            label: "Growth",
+            num: "",
+            icon: <TrendingUp size={18} />,
+            progress: "Coming soon",
+        },
+        {
             label: "Orders",
             num: ordersTotal?.toLocaleString?.() || ordersTotal,
             icon: <ShoppingCart size={18} />,
             progress: (
                 <>
-                    <span className="font-medium">Delivery:</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.delivery}</span><br/>
-                    <span className="mx-1">|</span>
-                    <span className="font-medium">Takeaway:</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.takeaway}</span>
-                    <span className="mx-1">|</span>
-                    <span className="font-medium">Dine-in:</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.dinein}</span>
+                    <div className="flex">
+                        <div>
+
+                            <span className="font-medium">Delivery</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.delivery}</span>
+                        </div>
+                        <div>
+
+                            <span className="font-medium">Takeaway</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.takeaway}</span>
+                        </div>
+                        <div>
+
+                            <span className="font-medium">Dine-in</span> <span className="font-semibold text-lg text-gray-900">{ordersByType.dinein}</span>
+                        </div>
+                    </div>
                 </>
             ),
         },
@@ -115,9 +130,9 @@ const AInfoCards = () => {
                 <div className="flex items-center">
                     <div className="flex flex-col">
                         <div className="flex items-center">
-                            {stats.roleItems.slice(0,2).map((r, idx) => (
+                            {stats.roleItems.slice(0, 2).map((r, idx) => (
                                 <div key={r.label} className="flex items-center">
-                                    <span className="text-sm ">
+                                    <span className="text-[12px] ">
                                         <span className="font-semibold p-1 rounded-full bg-gray-900 text-gray-100 py-0">{r.count}</span> {r.label}
                                     </span>
                                     {idx < 1 && (
@@ -128,12 +143,12 @@ const AInfoCards = () => {
                         </div>
                         <div className="flex items-center mt-1">
                             {stats.roleItems.slice(2).map((r, idx) => (
-                                <div key={r.label} className="flex items-center mb-3">
-                                    <span className="text-sm ">
+                                <div key={r.label} className="flex items-center mb-">
+                                    <span className="text-[12px] ">
                                         <span className="font-semibold p-1 rounded-full bg-gray-900 text-gray-100 py-0"><span>{r.count}</span></span> {r.label}
                                     </span>
                                     {idx < stats.roleItems.slice(2).length - 1 && (
-                                        <div className="w-px h-4 bg-gray-300 mx-2" />
+                                        <div className="w-px h-2 bg-gray-300 mx-2" />
                                     )}
                                 </div>
                             ))}
@@ -156,22 +171,22 @@ const AInfoCards = () => {
         },
     ];
 
-    return ( 
+    return (
         <>
-        <div className="flex flex-wrap gap-4 md:justify-between font-noto">
-            {CardInfo.map((item, index) => (
-                <Card key={index}>
-                    <div className="flex flex-col items-start  md:w-[170px]">
-                        <div>{item.icon}</div>
-                        <h1 className="font-semibold">{item.label}</h1>
-                        <div>{item.num}</div>
-                        <p className="text-xs text-placeholderText">{item.progress}</p>
-                    </div>
-                </Card>
-            ))}
-        </div>
+            <div className="flex flex-wrap md:justify-between font-noto">
+                {CardInfo.map((item, index) => (
+                    <Card key={index}>
+                        <div className="flex flex-col items-start md:w-[170px]">
+                            <div>{item.icon}</div>
+                            <h1 className="font-semibold">{item.label}</h1>
+                            <div>{item.num}</div>
+                            <p className="text-xs text-placeholderText">{item.progress}</p>
+                        </div>
+                    </Card>
+                ))}
+            </div>
         </>
-     );
+    );
 }
 
 export default AInfoCards;
