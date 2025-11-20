@@ -17,7 +17,7 @@ const TopDash = () => {
   const storedUser = JSON.parse(sessionStorage.getItem("user-data")).state.user;
   const restaurant = JSON.parse(sessionStorage.getItem("user-data")).state.restaurant;
   const role = storedUser.role;
-  console.log(storedUser);
+  // console.log(storedUser);
   return (
     <>
       <div className="pl-12 flex items-center justify-between bg-[#e0cda9] h-[65px] w-[100%] px-28 border-[#e0cd99]">

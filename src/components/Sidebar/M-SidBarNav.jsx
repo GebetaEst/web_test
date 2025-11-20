@@ -7,6 +7,7 @@ import Analytics from '../../pages/M-DemoPages/Analytics';
 import Settings from '../../pages/M-DemoPages/Settings';
 import Customers from '../../pages/M-DemoPages/customers';
 import DashBoardPage from '../../pages/DashBoardPage';
+import BalancePage from '../../pages/M-DemoPages/withdraw';
 const ManagerNav = () => {
   const { activeNav } = useNavigation();
   // console.log(activeNav)
@@ -31,6 +32,9 @@ const ManagerNav = () => {
         break;
       case 'Settings':
         setActiveComponent(<Settings />);
+        break;
+      case 'Balance':
+        setActiveComponent(<BalancePage />);
         break;
       default:
         setActiveComponent(null);

@@ -44,36 +44,50 @@ const Top5Restaurants = () => {
     return ( 
         <div className="font-noto">
             <Card>
-                <h1 className="text-lg font-semibold mb-2">Top 5 Restaurants</h1>
-                {loading && (
-                    <p className="text-sm text-placeholderText">Loading...</p>
-                )}
-                {error && (
-                    <p className="text-sm text-red-500">{error}</p>
-                )}
-                {!loading && !error && (
+                <h2 className="text-xl font-bold">Top 5 Restaurants</h2>
+                <p className="text-sm text-placeholderText mb-2">
+                   Most ordered restaurants
+                </p>
+                {loading && <p className="text-sm text-placeholderText">Loading...</p>}
+                {error && <p className="text-sm text-red-500">{error}</p>}
+                {!loading && !error && (topFive.length === 0 ? (
+                    <div className="text-center py-4">
+                        <p className="text-placeholderText">No data available</p>
+                    </div>
+                ) : (
                     <>
-                        {topFive.length === 0 ? (
-                            <p className="text-sm text-placeholderText">No data available</p>
-                        ) : (
-                            <ol className="list-decimal pl-5 space-y-2">
-                                {topFive.map((r, idx) => (
-                                    <li key={r.restaurantId || r.restaurantName || idx} className="flex items-center justify-between">
-                                        <div className="flex flex-col">
-                                            <span className="font-medium">{r.restaurantName || "Unknown Restaurant"}</span>
-                                            <span className="text-xs text-placeholderText">
-                                                Pending: {r?.byStatus?.Pending || 0} • Preparing: {r?.byStatus?.Preparing || 0} • Completed: {r?.byStatus?.Completed || 0}
-                                            </span>
+                        {topFive.map((r, index) => {
+                            const name = r?.restaurantName || "Unknown Restaurant";
+                            const initial = name?.[0] || "?";
+                            const total = Number(r?.totalOrders || 0);
+                            return (
+                                <Card
+                                    key={r.restaurantId || name || index}
+                                    className="px- py-[2px] border-b border-gray flex items-center justify-between gap-5"
+                                >
+                                    <div className="motion-preset-bounce motion-duration-300 text-left flex gap-2 px-1">
+                                        <div>
+                                            <div className="px-4 py-2 text2xl text-gray-400 pb-1 w-[50px] h-[50px] flex items-center justify-center  border-gray border rounded-full bg-cardBackground motion-preset-bounce motion-duration-300 font-poppins font-bold">
+                                                {initial}
+                                            </div>
                                         </div>
-                                        <span className="text-sm">
-                                            <span className="font-semibold text-gray-900">{Number(r?.totalOrders || 0)}</span> orders
+                                        <div>
+                                            <p className="text-sm">{name}</p>
+                                            <p className="text-xs text-placeholderText">
+                                                Pending: {r?.byStatus?.Pending || 0} • Preparing: {r?.byStatus?.Preparing || 0} • Completed: {r?.byStatus?.Completed || 0}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="">
+                                        <span className="font-semibold text-xs flex place-self-end p-1 px-2 rounded-full ml-8 motion-preset-bounce bg-blue-100 text-blue-700">
+                                            {total} orders
                                         </span>
-                                    </li>
-                                ))}
-                            </ol>
-                        )}
+                                    </div>
+                                </Card>
+                            );
+                        })}
                     </>
-                )}
+                ))}
             </Card>
         </div>
      );

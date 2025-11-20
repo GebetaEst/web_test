@@ -7,7 +7,8 @@ import {
   Users,
   BarChart2,
   Settings,
-  UtensilsCrossed
+  UtensilsCrossed,
+  Wallet
 } from 'lucide-react';
 
 
@@ -16,6 +17,7 @@ const navItems = [
   { label: 'Menu', path: '/menu', icon: <Utensils size={18} /> },
   { label: 'Orders', path: '/orders', icon: <ShoppingCart size={18} />, hasNotifications: true },
   // { label: 'Customers', path: '/customers', icon: <Users size={18} /> },
+  { label: 'Balance', path: '/balance', icon: <Wallet size={18} /> },
   { label: 'Analytics', path: '/analytics', icon: <BarChart2 size={18} /> },
   { label: 'Settings', path: '/settings', icon: <Settings size={18} /> },
 ];

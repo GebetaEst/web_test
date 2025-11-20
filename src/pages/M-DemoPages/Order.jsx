@@ -24,8 +24,6 @@ const ManagerOrders = () => {
   } = useUserStore();
 
   // Trigger order fetch when user enters this page
-  const ordersExist = JSON.parse(sessionStorage.getItem("user-data")).state.orders
-  console.log(ordersExist);
   const fetchOrders = async () => {
     try {
       const storeData = JSON.parse(sessionStorage.getItem("user-data"));
@@ -49,6 +47,7 @@ const ManagerOrders = () => {
         throw new Error("Failed to fetch orders");
       }
       const data = await response.json();
+      console.log(data);
 
       // Store orders in Zustand if used, otherwise just log
       if (Array.isArray(data?.data)) {
@@ -57,20 +56,19 @@ const ManagerOrders = () => {
       // Optionally handle new order logic similar to polling service
     } catch (error) {
       console.error("Error fetching orders: ", error);
-      useUserStore.getState().setOrdersError?.("Failed to fetch orders");
+      useUserStore.getState().setOrdersError?.("Failed@ to fetch orders");
     }
   };
 
-  // console.log(ordersExist);
   useEffect(() => {
-  if(ordersExist.length === 0){
-    orderPollingService.refreshOrders();
-    fetchOrders();
-  }
+    if (!Array.isArray(orders) || orders.length === 0) {
+      try { orderPollingService.refreshOrders?.(); } catch {}
+      fetchOrders();
+    }
   }, []);
   // Orders are already sorted by OrderPollingService
 
-  const filteredOrders = orders
+  const filteredOrders = (Array.isArray(orders) ? orders : [])
     .filter((order) => {
       const allowedStatuses = ["pending", "cooked", "canceled", "preparing"];
       return allowedStatuses.includes(order.orderStatus?.toLowerCase());

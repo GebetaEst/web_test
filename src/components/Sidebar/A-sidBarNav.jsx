@@ -9,6 +9,7 @@ import DashBoardPage from '../../pages/DashBoardPage';
 import AllList from '../../pages/A-DemoPages/AllList';
 import ACustomers from '../../pages/A-DemoPages/A-Restaurants';
 import DeliveryGuys from '../../pages/A-DemoPages/deliveryGuys';
+import WithdrawalHistory from '../../pages/A-DemoPages/WithdrawaHistory';
 const AdminNav = () => {
   const { activeNav } = useNavigation();
   const [activeComponent, setActiveComponent] = useState(null);
@@ -45,6 +46,9 @@ const AdminNav = () => {
         break;
       case 'Delivery Guys':
         setActiveComponent(<DeliveryGuys />);
+        break;
+      case 'Withdrawal History':
+        setActiveComponent(<WithdrawalHistory />);
         break;
       default:
         setActiveComponent(null);

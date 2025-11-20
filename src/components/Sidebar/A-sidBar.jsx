@@ -10,7 +10,8 @@ import {
   UtensilsCrossed,
   ScrollText,
   IdCard,
-  Truck 
+  Truck,
+  Wallet
 } from 'lucide-react';
 
 
@@ -21,7 +22,8 @@ const navItems = [
   // { label: 'Menu', path: '/menu', icon: <Utensils size={18} /> },
   { label: 'Restaurants', path: '/customers', icon:<ScrollText size={20} />  },
   { label: 'Delivery Guys', path: '/delivery-guys', icon: <Truck size={20} /> },
-  { label: 'Analytics', path: '/analytics', icon: <BarChart2 size={20} /> },
+  // { label: 'Analytics', path: '/analytics', icon: <BarChart2 size={20} /> },
+  { label: 'Withdrawal History', path: '/withdrawal-history', icon: <Wallet size={20} /> },
   { label: 'Settings', path: '/settings', icon: <Settings size={20} /> },
 ];
 
