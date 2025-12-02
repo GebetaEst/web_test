@@ -45,6 +45,7 @@ const Landing = () => {
   const [rotate, setRotate] = useState(45);
   const { width, height, scrollY } = useViewport(); // Removed unused scrollX
   console.log(scrollY)
+  console.log("width", width)
   // Rotation effect: Increment angle every 5 seconds
   useEffect(() => {
     let currentAngle = 45;
@@ -145,7 +146,7 @@ const Landing = () => {
   return (
     <>
 
-      <div className="relative h-72 md:h-screen  bg-cover font-sans text-gray-900 bg-landing">
+      <div className="relative h-72 md:h-full  bg-cover font-sans text-gray-900 bg-landing">
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/20 z-0" />
 
@@ -210,7 +211,6 @@ const Landing = () => {
           </form> */}
 
         </section>
-        <WaveDivider />
 
         {/* Scroll Indicator */}
         {/* <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
@@ -222,6 +222,8 @@ const Landing = () => {
 
         {/* Explore Section */}
         <section id="explore" className="relative pt-20 pb-20  bg-[#f4f1e9] backdrop-blur-lg ">
+        <WaveDivider />
+
           <div className="max-w-6xl mx-auto overflow-hidden flex flex-col items-center justify-center ">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
               Featured Restaurants

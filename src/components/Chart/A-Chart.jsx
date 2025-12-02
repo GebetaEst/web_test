@@ -87,7 +87,7 @@ const AChart = () => {
         <>
         <div className=" w-[600px] h-[400px] md:w-[800px] md:h-[500px] p-2 bg-white border border-[#e0cda9] sha rounded-lg font-noto ">
             <div className="flex items-center justify-between mb-2 px-2">
-                <h2 className="text-center w-full md:w-auto font-semibold">Admin Analytics </h2>
+                <h2 className="text-center w-full md:w-auto font-semibold">Admin Analytics</h2>
                 <div className="hidden md:flex gap-2">
                     <button
                         onClick={() => setActiveChart('users')}
@@ -105,7 +105,7 @@ const AChart = () => {
                         onClick={() => setActiveChart('revenue')}
                         className={`px-3 py-1 rounded-md text-sm border ${activeChart === 'revenue' ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-100 text-gray-700 border-gray-200'}`}
                     >
-                        Revenue
+                        Revenue Coming Soon
                     </button>
                 </div>
             </div>
